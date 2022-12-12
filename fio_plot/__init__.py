@@ -29,12 +29,17 @@ def get_settings():
     checks.run_preflight_checks(settings)
     return [parser, settings]
 
-def main():
+def main(routing_dict: dict = None, graphtype: str = None, settings_override: dict = None):
     option_found = False
     rawsettings = get_settings()
     settings = rawsettings[1]
     parser = rawsettings[0]
-    routing_dict = getdata.get_routing_dict()
+    
+    if settings_override is not None:
+        settings.update(settings_override)
+    
+    if routing_dict is None:
+        routing_dict = getdata.get_routing_dict()
 
     graphtype = settings["graphtype"]
 
